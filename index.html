@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>SiPontren - Sistem Manajemen Santri & Portal Wali</title>
+    <meta name="description" content="Sistem manajemen santri pesantren sederhana dan modern dengan pencatatan perizinan, tata tertib & sanksi, dan portal wali santri berbasis tautan pribadi & QR code." />
+    
+    <!-- Favicon & Web Search Logo SVG -->
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <link rel="alternate icon" href="/logo.svg" />
+    <link rel="apple-touch-icon" href="/logo.svg" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#5F8F6B" />
+
+    <meta property="og:title" content="SiPontren - Sistem Manajemen Santri & Portal Wali" />
+    <meta property="og:description" content="Sistem manajemen santri pesantren sederhana dan modern dengan pencatatan perizinan, tata tertib & sanksi, dan portal wali santri berbasis tautan pribadi & QR code." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/logo.svg" />
+    <meta property="og:image:type" content="image/svg+xml" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:image" content="/logo.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+      // Early suppression of Vite HMR WebSocket connection errors in container environment
+      (function() {
+        // 1. Mock WebSocket specifically for Vite HMR to prevent "WebSocket closed without opened"
+        if (typeof window !== 'undefined' && window.WebSocket) {
+          var RealWebSocket = window.WebSocket;
+          window.WebSocket = function(url, protocols) {
+            var isViteHmr = false;
+            if (typeof protocols === 'string' && protocols.indexOf('vite') !== -1) {
+              isViteHmr = true;
+            } else if (Array.isArray(protocols) && protocols.some(function(p) { return String(p).indexOf('vite') !== -1; })) {
+              isViteHmr = true;
+            } else if (typeof url === 'string' && (url.indexOf('vite-hmr') !== -1 || url.indexOf('localhost:3000') !== -1)) {
+              isViteHmr = true;
+            }
+
+            if (isViteHmr) {
+              var noop = function() {};
+              return {
+                url: url,
+                readyState: 1, // WebSocket.OPEN
+                CONNECTING: 0,
+                OPEN: 1,
+                CLOSING: 2,
+                CLOSED: 3,
+                binaryType: 'blob',
+                bufferedAmount: 0,
+                extensions: '',
+                protocol: typeof protocols === 'string' ? protocols : 'vite-hmr',
+                send: noop,
+                close: noop,
+                addEventListener: noop,
+                removeEventListener: noop,
+                dispatchEvent: function() { return false; },
+                onopen: null,
+                onclose: null,
+                onerror: null,
+                onmessage: null
+              };
+            }
+            return new RealWebSocket(url, protocols);
+          };
+          window.WebSocket.prototype = RealWebSocket.prototype;
+          window.WebSocket.CONNECTING = 0;
+          window.WebSocket.OPEN = 1;
+          window.WebSocket.CLOSING = 2;
+          window.WebSocket.CLOSED = 3;
+        }
+
+        // 2. Intercept and silence console.error / console.warn for [vite] and WebSocket
+        function isViteWsMessage(args) {
+          if (!args || !args.length) return false;
+          for (var i = 0; i < args.length; i++) {
+            var a = args[i];
+            var str = String((a && a.message) || (a && a.reason) || a || '');
+            if (
+              str.indexOf('WebSocket') !== -1 ||
+              str.indexOf('websocket') !== -1 ||
+              str.indexOf('[vite]') !== -1 ||
+              str.indexOf('vite-hmr') !== -1
+            ) {
+              return true;
+            }
+          }
+          return false;
+        }
+
+        var origConsoleError = console.error;
+        console.error = function() {
+          if (isViteWsMessage(arguments)) {
+            return;
+          }
+          return origConsoleError.apply(console, arguments);
+        };
+
+        var origConsoleWarn = console.warn;
+        console.warn = function() {
+          if (isViteWsMessage(arguments)) {
+            return;
+          }
+          return origConsoleWarn.apply(console, arguments);
+        };
+
+        // 3. Catch window unhandled rejections and global errors
+        window.addEventListener('unhandledrejection', function(event) {
+          var msg = String((event && event.reason && (event.reason.message || event.reason)) || '');
+          if (msg.indexOf('WebSocket') !== -1 || msg.indexOf('websocket') !== -1 || msg.indexOf('[vite]') !== -1) {
+            event.preventDefault();
+            if (typeof event.stopImmediatePropagation === 'function') {
+              event.stopImmediatePropagation();
+            }
+          }
+        }, true);
+
+        window.addEventListener('error', function(event) {
+          var msg = String((event && (event.message || (event.error && event.error.message))) || '');
+          if (msg.indexOf('WebSocket') !== -1 || msg.indexOf('websocket') !== -1 || msg.indexOf('[vite]') !== -1) {
+            event.preventDefault();
+            if (typeof event.stopImmediatePropagation === 'function') {
+              event.stopImmediatePropagation();
+            }
+          }
+        }, true);
+      })();
+    </script>
+  </head>
+  <body class="bg-[#FBF5EA] text-[#2C2925] antialiased selection:bg-[#5F8F6B] selection:text-white transition-colors duration-200">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

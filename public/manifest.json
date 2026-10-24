@@ -1,0 +1,17 @@
+{
+  "name": "SiPontren - Sistem Manajemen Santri & Portal Wali",
+  "short_name": "SiPontren",
+  "description": "Sistem manajemen santri pesantren sederhana dan modern dengan pencatatan perizinan, tata tertib & sanksi, dan portal wali santri berbasis tautan pribadi & QR code.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FBF5EA",
+  "theme_color": "#5F8F6B",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
